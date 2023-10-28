@@ -5,7 +5,7 @@ TOPLEVEL_LANG ?= verilog
 ifneq ($(GATES),yes)
 
 # normal simulation
-VERILOG_SOURCES += $(PWD)/tb.v $(PWD)/tt_um_diadatp_spigot.v
+VERILOG_SOURCES += $(PWD)/tb.v $(PWD)/tt_um_diadatp_spigot_e.v
 
 else
 
