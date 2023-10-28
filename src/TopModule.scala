@@ -25,31 +25,56 @@ case class TopModule(n: Int) extends Component {
       val innerCounter = Reg(UInt(log2Up(n) bits)) init (0)
 
       val stateInit: State = new State with EntryPoint {
-        onEntry(innerCounter := n)
+        onEntry {
+          innerCounter := n
+          outerCounter := (n - 2)
+        }
         whenIsActive {
           mem.write(innerCounter, U(1, 8 bits))
 
           when(innerCounter === 0) {
-            goto(stateDigit)
+            goto(stateMulTen)
+          } otherwise {
+            innerCounter := innerCounter - 1
+          }
+        }
+        onExit(digits(0) := 2)
+      }
+
+      val stateMulTen: State = new State {
+        onEntry(innerCounter := n)
+        whenIsActive {
+          mem.write(innerCounter, (10 * mem.readAsync(innerCounter))(7 downto 0))
+          when(innerCounter === 0) {
+            goto(stateDivideAndPropagate)
           } otherwise {
             innerCounter := innerCounter - 1
           }
         }
       }
 
-      val stateDigit: State = new State {
-        onEntry(outerCounter := (n - 2))
+      val stateDivideAndPropagate: State = new State {
+        onEntry(innerCounter := n)
         whenIsActive {
-
-          digits(0) := U(2)
-          for (i <- 1 to 3) {
-            digits(i) := digits(i - 1)
-          }
-
-          when(outerCounter === 0) {
-            goto(stateFinish)
+          val divisor = (innerCounter + 2)
+          val dividend = mem.readAsync(innerCounter)
+          val quotient = (dividend / divisor).resize(8)
+          val remainder = (dividend % divisor).resize(8)
+          mem.write(innerCounter, remainder)
+          when(innerCounter === 0) {
+            digits(0) := quotient.resize(4 bits)
+            for (i <- 1 to 3) {
+              digits(i) := digits(i - 1)
+            }
+            when(outerCounter === 0) {
+              goto(stateFinish)
+            } otherwise {
+              outerCounter := outerCounter - 1
+              goto(stateMulTen)
+            }
           } otherwise {
-            outerCounter := outerCounter - 1
+            mem.write(innerCounter - 1, (mem.readAsync(innerCounter - 1) + quotient))
+            innerCounter := innerCounter - 1
           }
         }
       }
