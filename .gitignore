@@ -8,8 +8,11 @@ src/__pycache__/
 src/__tinytapeout
 src/results.xml
 src/user_config.tcl
-.venv
 .bloop
+.bsp
 .metals
+.venv
 project
+simWorkspace
 target
+tmp

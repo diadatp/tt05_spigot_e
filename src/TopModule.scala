@@ -14,10 +14,46 @@ case class TopModule(n: Int) extends Component {
 
   val digits = Vec.fill(4)(Reg(UInt(4 bits)) init (0))
 
+  val mem = Mem(wordType = UInt(8 bits), wordCount = (n + 1))
+
   when(io.ena) {
-    digits(0) := U(2)
-    for (i <- 1 to 3) {
-      digits(i) := digits(i - 1)
+    val outerFsm = new StateMachine {
+      // outer loop runs (n - 1) times from 0 to (n - 2)
+      val outerCounter = Reg(UInt(log2Up(n - 2) bits)) init (0)
+      // inner loop runs (n + 1) times from 0 to n
+      val innerCounter = Reg(UInt(log2Up(n) bits)) init (0)
+
+      val stateInit: State = new State with EntryPoint {
+        onEntry(innerCounter := n)
+        whenIsActive {
+          mem.write(innerCounter, U(1, 8 bits))
+
+          when(innerCounter === 0) {
+            goto(stateDigit)
+          } otherwise {
+            innerCounter := innerCounter - 1
+          }
+        }
+      }
+
+      val stateDigit: State = new State {
+        onEntry(outerCounter := (n - 2))
+        whenIsActive {
+
+          digits(0) := U(2)
+          for (i <- 1 to 3) {
+            digits(i) := digits(i - 1)
+          }
+
+          when(outerCounter === 0) {
+            goto(stateFinish)
+          } otherwise {
+            outerCounter := outerCounter - 1
+          }
+        }
+      }
+
+      val stateFinish: State = new State
     }
   }
 
