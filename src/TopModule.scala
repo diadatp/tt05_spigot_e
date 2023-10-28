@@ -20,9 +20,9 @@ case class TopModule(n: Int) extends Component {
   {
     val outerFsm = new StateMachine {
       // outer loop runs (n - 1) times from 0 to (n - 2)
-      val outerCounter = Reg(UInt(log2Up(n - 2) bits)) init (0)
+      val outerCounter = Reg(UInt(log2Up(n - 1) bits)) init (0)
       // inner loop runs (n + 1) times from 0 to n
-      val innerCounter = Reg(UInt(log2Up(n) bits)) init (0)
+      val innerCounter = Reg(UInt(log2Up(n + 1) bits)) init (0)
 
       val stateInit: State = new State with EntryPoint {
         onEntry {
