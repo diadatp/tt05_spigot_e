@@ -1,6 +1,6 @@
 // Generator : SpinalHDL v1.9.3    git head : 029104c77a54c53f1edda327a3bea333f7d65fd9
 // Component : TopModule
-// Git hash  : d8f38338f666c131e4e843c4a58c86831a60e5ca
+// Git hash  : 9b4a870755712d0dc9c721dd525512ec0a72df05
 
 `timescale 1ns/1ps
 
@@ -41,7 +41,7 @@ module TopModule (
   reg        [3:0]    digits_2;
   reg        [3:0]    digits_3;
   reg                 _zz_5;
-  reg        [2:0]    _zz_when_TopModule_l69;
+  reg        [3:0]    _zz_when_TopModule_l69;
   reg        [3:0]    _zz_when_TopModule_l35;
   reg        [2:0]    _zz_when_StateMachine_l253;
   reg        [2:0]    _zz_when_StateMachine_l253_1;
@@ -64,7 +64,7 @@ module TopModule (
   reg [15:0] _zz_when_StateMachine_l253_1_string;
   `endif
 
-  (* ram_style = "distributed" *) reg [7:0] mem [0:9];
+  (* ram_style = "distributed" *) reg [7:0] mem [0:12];
 
   assign _zz_mem_port_2 = (4'b1010 * _zz_mem_port1);
   assign _zz_mem_port_5 = (_zz_digits_0_1 % _zz_digits_0);
@@ -260,7 +260,7 @@ module TopModule (
   assign _zz_digits_0_1 = _zz_mem_port3;
   assign _zz_digits_0_2 = _zz__zz_digits_0_2;
   assign when_TopModule_l64 = (_zz_when_TopModule_l35 == 4'b0000);
-  assign when_TopModule_l69 = (_zz_when_TopModule_l69 == 3'b000);
+  assign when_TopModule_l69 = (_zz_when_TopModule_l69 == 4'b0000);
   assign _zz_13 = (_zz_when_TopModule_l35 - 4'b0001);
   assign when_StateMachine_l237 = (_zz_when_StateMachine_l237 && (! _zz_when_StateMachine_l237_1));
   assign when_StateMachine_l253 = ((! _zz_when_StateMachine_l237) && _zz_when_StateMachine_l237_1);
@@ -272,7 +272,7 @@ module TopModule (
       digits_1 <= 4'b0000;
       digits_2 <= 4'b0000;
       digits_3 <= 4'b0000;
-      _zz_when_TopModule_l69 <= 3'b000;
+      _zz_when_TopModule_l69 <= 4'b0000;
       _zz_when_TopModule_l35 <= 4'b0000;
       _zz_when_StateMachine_l253 <= StateMachineEnum_;
     end else begin
@@ -295,7 +295,7 @@ module TopModule (
             digits_2 <= digits_1;
             digits_3 <= digits_2;
             if(!when_TopModule_l69) begin
-              _zz_when_TopModule_l69 <= (_zz_when_TopModule_l69 - 3'b001);
+              _zz_when_TopModule_l69 <= (_zz_when_TopModule_l69 - 4'b0001);
             end
           end else begin
             _zz_when_TopModule_l35 <= (_zz_when_TopModule_l35 - 4'b0001);
@@ -310,14 +310,14 @@ module TopModule (
         digits_0 <= 4'b0010;
       end
       if(when_StateMachine_l253) begin
-        _zz_when_TopModule_l35 <= 4'b1001;
-        _zz_when_TopModule_l69 <= 3'b111;
+        _zz_when_TopModule_l35 <= 4'b1100;
+        _zz_when_TopModule_l69 <= 4'b1010;
       end
       if(when_StateMachine_l253_1) begin
-        _zz_when_TopModule_l35 <= 4'b1001;
+        _zz_when_TopModule_l35 <= 4'b1100;
       end
       if(when_StateMachine_l253_2) begin
-        _zz_when_TopModule_l35 <= 4'b1001;
+        _zz_when_TopModule_l35 <= 4'b1100;
       end
     end
   end
