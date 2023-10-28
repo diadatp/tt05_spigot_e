@@ -10,7 +10,7 @@ object TopModuleSim extends App {
     dut.io.ena #= true
 
     var modelState = 0
-    for (idx <- 0 to 99) {
+    for (idx <- 0 to 200) {
       dut.clockDomain.waitRisingEdge()
     }
   }
