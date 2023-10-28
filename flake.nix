@@ -12,6 +12,7 @@
         buildInputs = with pkgs; [
           # metals
           gtkwave
+          jdk
           python3
           python3Packages.numpy
           python3Packages.pip
