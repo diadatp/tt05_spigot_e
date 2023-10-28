@@ -16,7 +16,8 @@ case class TopModule(n: Int) extends Component {
 
   val mem = Mem(wordType = UInt(8 bits), wordCount = (n + 1))
 
-  when(io.ena) {
+  // when(io.ena) {
+  {
     val outerFsm = new StateMachine {
       // outer loop runs (n - 1) times from 0 to (n - 2)
       val outerCounter = Reg(UInt(log2Up(n - 2) bits)) init (0)
