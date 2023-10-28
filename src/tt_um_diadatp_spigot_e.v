@@ -31,6 +31,6 @@ module tt_um_diadatp_spigot_e (
   assign uio_oe  = 8'b1111_1111;
 
   assign uio_out = (1 == ena) ? {digit0, digit1} : 0;
-  assign uo_out  = (1 == ena) ? {digit0, digit1} : 0;
+  assign uo_out  = (1 == ena) ? {digit2, digit3} : 0;
 
 endmodule
