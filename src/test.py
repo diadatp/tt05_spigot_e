@@ -18,7 +18,5 @@ async def test_single_key(dut):
     await ClockCycles(dut.clk, 10)
     dut.rst_n.value = 1
     dut.ena.value = 1
-    dut.ui_in.value = 1
-    dut.uio_in.value = 7 << 4
 
     await ClockCycles(dut.clk, 10000)
