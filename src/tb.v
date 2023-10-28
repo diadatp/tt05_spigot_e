@@ -20,6 +20,10 @@ module tb ();
   wire [7:0] uio_oe;
 
   tt_um_diadatp_spigot tt_um_diadatp_spigot (
+`ifdef GL_TEST
+      .VPWR   (1'b1),
+      .VGND   (1'b0),
+`endif
       .ui_in  (ui_in),
       .uo_out (uo_out),
       .uio_in (uio_in),
