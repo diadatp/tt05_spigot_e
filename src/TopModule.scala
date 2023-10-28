@@ -5,11 +5,11 @@ import spinal.lib.fsm._
 
 case class TopModule(n: Int) extends Component {
   val io = new Bundle {
-    var ena = in Bool ()
-    var digit0 = out UInt (4 bits)
-    var digit1 = out UInt (4 bits)
-    var digit2 = out UInt (4 bits)
-    var digit3 = out UInt (4 bits)
+    val ena = in Bool ()
+    val digit0 = out UInt (4 bits)
+    val digit1 = out UInt (4 bits)
+    val digit2 = out UInt (4 bits)
+    val digit3 = out UInt (4 bits)
   }
 
   val digits = Vec.fill(4)(Reg(UInt(4 bits)) init (0))
