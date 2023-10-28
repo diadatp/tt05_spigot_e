@@ -14,6 +14,7 @@
           gtkwave
           jdk
           python3
+          python3Packages.autopep8
           python3Packages.numpy
           python3Packages.pip
           python3Packages.scipy
@@ -22,6 +23,7 @@
           verible
           verilator
           verilog
+          xdot
           yosys
           zlib
         ];
