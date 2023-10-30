@@ -90,5 +90,5 @@ case class TopModule(n: Int) extends Component {
 }
 
 object TopModuleVerilog extends App {
-  Config.spinal.generateVerilog(TopModule(11))
+  Config.spinal.generateVerilog(TopModule(10))
 }

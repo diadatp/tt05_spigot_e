@@ -1,6 +1,6 @@
 // Generator : SpinalHDL v1.9.3    git head : 029104c77a54c53f1edda327a3bea333f7d65fd9
 // Component : TopModule
-// Git hash  : 05dcf30119be3306521a30cc3839019376d55cf1
+// Git hash  : e02415b7fe6d66e23225a4db81f524a57e1e412b
 
 `timescale 1ns/1ps
 
@@ -66,7 +66,7 @@ module TopModule (
   reg [183:0] outerFsm_stateNext_string;
   `endif
 
-  (* ram_style = "distributed" *) reg [7:0] mem [0:11];
+  (* ram_style = "distributed" *) reg [7:0] mem [0:10];
 
   assign _zz_mem_port_2 = (4'b1010 * _zz_mem_port1);
   assign _zz_mem_port_5 = (_zz_digits_0_1 % _zz_digits_0);
@@ -314,14 +314,14 @@ module TopModule (
         digits_0 <= 4'b0010;
       end
       if(when_StateMachine_l253) begin
-        outerFsm_innerCounter <= 4'b1011;
-        outerFsm_outerCounter <= 4'b1001;
+        outerFsm_innerCounter <= 4'b1010;
+        outerFsm_outerCounter <= 4'b1000;
       end
       if(when_StateMachine_l253_1) begin
-        outerFsm_innerCounter <= 4'b1011;
+        outerFsm_innerCounter <= 4'b1010;
       end
       if(when_StateMachine_l253_2) begin
-        outerFsm_innerCounter <= 4'b1011;
+        outerFsm_innerCounter <= 4'b1010;
       end
     end
   end
