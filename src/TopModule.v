@@ -1,6 +1,6 @@
 // Generator : SpinalHDL v1.9.3    git head : 029104c77a54c53f1edda327a3bea333f7d65fd9
 // Component : TopModule
-// Git hash  : e02415b7fe6d66e23225a4db81f524a57e1e412b
+// Git hash  : 3d7f9fffa1e36a619a520a37ead8c001891295fe
 
 `timescale 1ns/1ps
 
@@ -17,7 +17,9 @@ module TopModule (
   localparam outerFsm_enumDef_stateInit = 3'd1;
   localparam outerFsm_enumDef_stateMulTen = 3'd2;
   localparam outerFsm_enumDef_stateDivideAndPropagate = 3'd3;
-  localparam outerFsm_enumDef_stateFinish = 3'd4;
+  localparam outerFsm_enumDef_stateDivDo = 3'd4;
+  localparam outerFsm_enumDef_stateCommitDivide = 3'd5;
+  localparam outerFsm_enumDef_stateFinish = 3'd6;
 
   wire       [7:0]    _zz_mem_port1;
   wire       [7:0]    _zz_mem_port3;
@@ -26,12 +28,14 @@ module TopModule (
   wire       [7:0]    _zz_mem_port_1;
   wire       [11:0]   _zz_mem_port_2;
   wire       [7:0]    _zz_mem_port_3;
-  wire       [7:0]    _zz_mem_port_4;
-  wire       [3:0]    _zz_mem_port_5;
-  wire       [3:0]    _zz_mem_port_6;
-  wire       [7:0]    _zz_mem_port_7;
-  wire       [7:0]    _zz_mem_port_8;
-  wire       [7:0]    _zz__zz_digits_0_2;
+  wire       [3:0]    _zz_mem_port_4;
+  wire       [7:0]    _zz_mem_port_5;
+  wire       [7:0]    _zz_mem_port_6;
+  wire       [3:0]    _zz_outerFsm_divisor;
+  wire       [7:0]    _zz_outerFsm_accumulator;
+  wire       [8:0]    _zz_when_TopModule_l87;
+  wire       [8:0]    _zz_outerFsm_accumulator_1;
+  wire       [8:0]    _zz_outerFsm_accumulator_2;
   reg                 _zz_1;
   reg                 _zz_2;
   reg                 _zz_3;
@@ -45,22 +49,29 @@ module TopModule (
   wire                outerFsm_wantKill;
   reg        [3:0]    outerFsm_outerCounter;
   reg        [3:0]    outerFsm_innerCounter;
+  reg        [7:0]    outerFsm_divisor;
+  wire       [7:0]    outerFsm_dividend;
+  reg        [7:0]    outerFsm_quotient;
+  reg        [7:0]    outerFsm_remainder;
+  reg        [3:0]    outerFsm_counter;
+  reg        [15:0]   outerFsm_accumulator;
   reg        [2:0]    outerFsm_stateReg;
   reg        [2:0]    outerFsm_stateNext;
   wire                _zz_when_StateMachine_l237;
   wire                _zz_when_StateMachine_l237_1;
-  wire                when_TopModule_l35;
-  wire                when_TopModule_l48;
-  wire       [3:0]    _zz_digits_0;
-  wire       [7:0]    _zz_digits_0_1;
-  wire       [7:0]    _zz_digits_0_2;
-  wire                when_TopModule_l64;
-  wire                when_TopModule_l69;
+  wire                _zz_when_StateMachine_l237_2;
+  wire                _zz_when_StateMachine_l237_3;
+  wire                when_TopModule_l41;
+  wire                when_TopModule_l54;
+  wire                when_TopModule_l80;
+  wire                when_TopModule_l87;
   wire       [3:0]    _zz_12;
+  wire                when_TopModule_l101;
+  wire                when_TopModule_l106;
   wire                when_StateMachine_l237;
+  wire                when_StateMachine_l237_1;
   wire                when_StateMachine_l253;
   wire                when_StateMachine_l253_1;
-  wire                when_StateMachine_l253_2;
   `ifndef SYNTHESIS
   reg [183:0] outerFsm_stateReg_string;
   reg [183:0] outerFsm_stateNext_string;
@@ -69,15 +80,17 @@ module TopModule (
   (* ram_style = "distributed" *) reg [7:0] mem [0:10];
 
   assign _zz_mem_port_2 = (4'b1010 * _zz_mem_port1);
-  assign _zz_mem_port_5 = (_zz_digits_0_1 % _zz_digits_0);
-  assign _zz_mem_port_4 = {4'd0, _zz_mem_port_5};
-  assign _zz_mem_port_6 = (outerFsm_innerCounter - 4'b0001);
-  assign _zz_mem_port_8 = (_zz_mem_port5 + _zz_digits_0_2);
-  assign _zz__zz_digits_0_2 = (_zz_digits_0_1 / _zz_digits_0);
+  assign _zz_mem_port_4 = (outerFsm_innerCounter - 4'b0001);
+  assign _zz_mem_port_6 = (_zz_mem_port5 + outerFsm_quotient);
+  assign _zz_outerFsm_divisor = (outerFsm_innerCounter + 4'b0010);
+  assign _zz_outerFsm_accumulator = _zz_mem_port3;
+  assign _zz_when_TopModule_l87 = {1'd0, outerFsm_divisor};
+  assign _zz_outerFsm_accumulator_1 = (outerFsm_accumulator[15 : 7] - _zz_outerFsm_accumulator_2);
+  assign _zz_outerFsm_accumulator_2 = {1'd0, outerFsm_divisor};
   assign _zz_mem_port = 8'h01;
   assign _zz_mem_port_1 = _zz_mem_port_2[7 : 0];
-  assign _zz_mem_port_3 = _zz_mem_port_4;
-  assign _zz_mem_port_7 = _zz_mem_port_8;
+  assign _zz_mem_port_3 = outerFsm_remainder;
+  assign _zz_mem_port_5 = _zz_mem_port_6;
   always @(posedge clk) begin
     if(_zz_4) begin
       mem[outerFsm_innerCounter] <= _zz_mem_port;
@@ -101,7 +114,7 @@ module TopModule (
   assign _zz_mem_port5 = mem[_zz_12];
   always @(posedge clk) begin
     if(_zz_1) begin
-      mem[_zz_mem_port_6] <= _zz_mem_port_7;
+      mem[_zz_mem_port_4] <= _zz_mem_port_5;
     end
   end
 
@@ -112,6 +125,8 @@ module TopModule (
       outerFsm_enumDef_stateInit : outerFsm_stateReg_string = "stateInit              ";
       outerFsm_enumDef_stateMulTen : outerFsm_stateReg_string = "stateMulTen            ";
       outerFsm_enumDef_stateDivideAndPropagate : outerFsm_stateReg_string = "stateDivideAndPropagate";
+      outerFsm_enumDef_stateDivDo : outerFsm_stateReg_string = "stateDivDo             ";
+      outerFsm_enumDef_stateCommitDivide : outerFsm_stateReg_string = "stateCommitDivide      ";
       outerFsm_enumDef_stateFinish : outerFsm_stateReg_string = "stateFinish            ";
       default : outerFsm_stateReg_string = "???????????????????????";
     endcase
@@ -122,6 +137,8 @@ module TopModule (
       outerFsm_enumDef_stateInit : outerFsm_stateNext_string = "stateInit              ";
       outerFsm_enumDef_stateMulTen : outerFsm_stateNext_string = "stateMulTen            ";
       outerFsm_enumDef_stateDivideAndPropagate : outerFsm_stateNext_string = "stateDivideAndPropagate";
+      outerFsm_enumDef_stateDivDo : outerFsm_stateNext_string = "stateDivDo             ";
+      outerFsm_enumDef_stateCommitDivide : outerFsm_stateNext_string = "stateCommitDivide      ";
       outerFsm_enumDef_stateFinish : outerFsm_stateNext_string = "stateFinish            ";
       default : outerFsm_stateNext_string = "???????????????????????";
     endcase
@@ -136,9 +153,11 @@ module TopModule (
       outerFsm_enumDef_stateMulTen : begin
       end
       outerFsm_enumDef_stateDivideAndPropagate : begin
-        if(!when_TopModule_l64) begin
-          _zz_1 = 1'b1;
-        end
+      end
+      outerFsm_enumDef_stateDivDo : begin
+      end
+      outerFsm_enumDef_stateCommitDivide : begin
+        _zz_1 = 1'b1;
       end
       outerFsm_enumDef_stateFinish : begin
       end
@@ -155,6 +174,10 @@ module TopModule (
       outerFsm_enumDef_stateMulTen : begin
       end
       outerFsm_enumDef_stateDivideAndPropagate : begin
+      end
+      outerFsm_enumDef_stateDivDo : begin
+      end
+      outerFsm_enumDef_stateCommitDivide : begin
         _zz_2 = 1'b1;
       end
       outerFsm_enumDef_stateFinish : begin
@@ -174,6 +197,10 @@ module TopModule (
       end
       outerFsm_enumDef_stateDivideAndPropagate : begin
       end
+      outerFsm_enumDef_stateDivDo : begin
+      end
+      outerFsm_enumDef_stateCommitDivide : begin
+      end
       outerFsm_enumDef_stateFinish : begin
       end
       default : begin
@@ -190,6 +217,10 @@ module TopModule (
       outerFsm_enumDef_stateMulTen : begin
       end
       outerFsm_enumDef_stateDivideAndPropagate : begin
+      end
+      outerFsm_enumDef_stateDivDo : begin
+      end
+      outerFsm_enumDef_stateCommitDivide : begin
       end
       outerFsm_enumDef_stateFinish : begin
       end
@@ -208,6 +239,10 @@ module TopModule (
       end
       outerFsm_enumDef_stateDivideAndPropagate : begin
       end
+      outerFsm_enumDef_stateDivDo : begin
+      end
+      outerFsm_enumDef_stateCommitDivide : begin
+      end
       outerFsm_enumDef_stateFinish : begin
       end
       default : begin
@@ -217,32 +252,45 @@ module TopModule (
   end
 
   assign outerFsm_wantKill = 1'b0;
+  assign outerFsm_dividend = 8'h00;
   assign io_digit0 = digits_0;
   assign io_digit1 = digits_1;
   assign io_digit2 = digits_2;
   assign io_digit3 = digits_3;
   assign _zz_when_StateMachine_l237 = (outerFsm_stateReg == outerFsm_enumDef_stateInit);
-  assign _zz_when_StateMachine_l237_1 = (outerFsm_stateNext == outerFsm_enumDef_stateInit);
+  assign _zz_when_StateMachine_l237_1 = (outerFsm_stateReg == outerFsm_enumDef_stateMulTen);
+  assign _zz_when_StateMachine_l237_2 = (outerFsm_stateNext == outerFsm_enumDef_stateInit);
+  assign _zz_when_StateMachine_l237_3 = (outerFsm_stateNext == outerFsm_enumDef_stateMulTen);
   always @(*) begin
     outerFsm_stateNext = outerFsm_stateReg;
     case(outerFsm_stateReg)
       outerFsm_enumDef_stateInit : begin
-        if(when_TopModule_l35) begin
+        if(when_TopModule_l41) begin
           outerFsm_stateNext = outerFsm_enumDef_stateMulTen;
         end
       end
       outerFsm_enumDef_stateMulTen : begin
-        if(when_TopModule_l48) begin
+        if(when_TopModule_l54) begin
           outerFsm_stateNext = outerFsm_enumDef_stateDivideAndPropagate;
         end
       end
       outerFsm_enumDef_stateDivideAndPropagate : begin
-        if(when_TopModule_l64) begin
-          if(when_TopModule_l69) begin
+        outerFsm_stateNext = outerFsm_enumDef_stateDivDo;
+      end
+      outerFsm_enumDef_stateDivDo : begin
+        if(when_TopModule_l80) begin
+          outerFsm_stateNext = outerFsm_enumDef_stateCommitDivide;
+        end
+      end
+      outerFsm_enumDef_stateCommitDivide : begin
+        if(when_TopModule_l101) begin
+          if(when_TopModule_l106) begin
             outerFsm_stateNext = outerFsm_enumDef_stateFinish;
           end else begin
             outerFsm_stateNext = outerFsm_enumDef_stateMulTen;
           end
+        end else begin
+          outerFsm_stateNext = outerFsm_enumDef_stateDivideAndPropagate;
         end
       end
       outerFsm_enumDef_stateFinish : begin
@@ -258,18 +306,17 @@ module TopModule (
     end
   end
 
-  assign when_TopModule_l35 = (outerFsm_innerCounter == 4'b0000);
-  assign when_TopModule_l48 = (outerFsm_innerCounter == 4'b0000);
-  assign _zz_digits_0 = (outerFsm_innerCounter + 4'b0010);
-  assign _zz_digits_0_1 = _zz_mem_port3;
-  assign _zz_digits_0_2 = _zz__zz_digits_0_2;
-  assign when_TopModule_l64 = (outerFsm_innerCounter == 4'b0000);
-  assign when_TopModule_l69 = (outerFsm_outerCounter == 4'b0000);
+  assign when_TopModule_l41 = (outerFsm_innerCounter == 4'b0000);
+  assign when_TopModule_l54 = (outerFsm_innerCounter == 4'b0000);
+  assign when_TopModule_l80 = (outerFsm_counter == 4'b0000);
+  assign when_TopModule_l87 = (_zz_when_TopModule_l87 <= outerFsm_accumulator[15 : 7]);
   assign _zz_12 = (outerFsm_innerCounter - 4'b0001);
-  assign when_StateMachine_l237 = (_zz_when_StateMachine_l237 && (! _zz_when_StateMachine_l237_1));
-  assign when_StateMachine_l253 = ((! _zz_when_StateMachine_l237) && _zz_when_StateMachine_l237_1);
-  assign when_StateMachine_l253_1 = ((! (outerFsm_stateReg == outerFsm_enumDef_stateMulTen)) && (outerFsm_stateNext == outerFsm_enumDef_stateMulTen));
-  assign when_StateMachine_l253_2 = ((! (outerFsm_stateReg == outerFsm_enumDef_stateDivideAndPropagate)) && (outerFsm_stateNext == outerFsm_enumDef_stateDivideAndPropagate));
+  assign when_TopModule_l101 = (outerFsm_innerCounter == 4'b0000);
+  assign when_TopModule_l106 = (outerFsm_outerCounter == 4'b0000);
+  assign when_StateMachine_l237 = (_zz_when_StateMachine_l237 && (! _zz_when_StateMachine_l237_2));
+  assign when_StateMachine_l237_1 = (_zz_when_StateMachine_l237_1 && (! _zz_when_StateMachine_l237_3));
+  assign when_StateMachine_l253 = ((! _zz_when_StateMachine_l237) && _zz_when_StateMachine_l237_2);
+  assign when_StateMachine_l253_1 = ((! _zz_when_StateMachine_l237_1) && _zz_when_StateMachine_l237_3);
   always @(posedge clk or negedge resetn) begin
     if(!resetn) begin
       digits_0 <= 4'b0000;
@@ -278,31 +325,53 @@ module TopModule (
       digits_3 <= 4'b0000;
       outerFsm_outerCounter <= 4'b0000;
       outerFsm_innerCounter <= 4'b0000;
+      outerFsm_divisor <= 8'h00;
+      outerFsm_quotient <= 8'h00;
+      outerFsm_remainder <= 8'h00;
+      outerFsm_counter <= 4'b0000;
+      outerFsm_accumulator <= 16'h0000;
       outerFsm_stateReg <= outerFsm_enumDef_BOOT;
     end else begin
       outerFsm_stateReg <= outerFsm_stateNext;
       case(outerFsm_stateReg)
         outerFsm_enumDef_stateInit : begin
-          if(!when_TopModule_l35) begin
+          if(!when_TopModule_l41) begin
             outerFsm_innerCounter <= (outerFsm_innerCounter - 4'b0001);
           end
         end
         outerFsm_enumDef_stateMulTen : begin
-          if(!when_TopModule_l48) begin
+          if(!when_TopModule_l54) begin
             outerFsm_innerCounter <= (outerFsm_innerCounter - 4'b0001);
           end
         end
         outerFsm_enumDef_stateDivideAndPropagate : begin
-          if(when_TopModule_l64) begin
-            digits_0 <= _zz_digits_0_2[3:0];
+          outerFsm_divisor <= {4'd0, _zz_outerFsm_divisor};
+          outerFsm_counter <= 4'b1000;
+          outerFsm_accumulator <= {8'd0, _zz_outerFsm_accumulator};
+        end
+        outerFsm_enumDef_stateDivDo : begin
+          if(when_TopModule_l80) begin
+            outerFsm_quotient <= outerFsm_accumulator[7 : 0];
+            outerFsm_remainder <= outerFsm_accumulator[15 : 8];
+          end else begin
+            outerFsm_counter <= (outerFsm_counter - 4'b0001);
+          end
+          if(when_TopModule_l87) begin
+            outerFsm_accumulator <= {{_zz_outerFsm_accumulator_1[7 : 0],outerFsm_accumulator[6 : 0]},1'b1};
+          end else begin
+            outerFsm_accumulator <= (outerFsm_accumulator <<< 1);
+          end
+        end
+        outerFsm_enumDef_stateCommitDivide : begin
+          outerFsm_innerCounter <= (outerFsm_innerCounter - 4'b0001);
+          if(when_TopModule_l101) begin
+            digits_0 <= outerFsm_quotient[3:0];
             digits_1 <= digits_0;
             digits_2 <= digits_1;
             digits_3 <= digits_2;
-            if(!when_TopModule_l69) begin
+            if(!when_TopModule_l106) begin
               outerFsm_outerCounter <= (outerFsm_outerCounter - 4'b0001);
             end
-          end else begin
-            outerFsm_innerCounter <= (outerFsm_innerCounter - 4'b0001);
           end
         end
         outerFsm_enumDef_stateFinish : begin
@@ -313,14 +382,14 @@ module TopModule (
       if(when_StateMachine_l237) begin
         digits_0 <= 4'b0010;
       end
+      if(when_StateMachine_l237_1) begin
+        outerFsm_innerCounter <= 4'b1010;
+      end
       if(when_StateMachine_l253) begin
         outerFsm_innerCounter <= 4'b1010;
         outerFsm_outerCounter <= 4'b1000;
       end
       if(when_StateMachine_l253_1) begin
-        outerFsm_innerCounter <= 4'b1010;
-      end
-      if(when_StateMachine_l253_2) begin
         outerFsm_innerCounter <= 4'b1010;
       end
     end
