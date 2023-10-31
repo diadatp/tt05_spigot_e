@@ -14,7 +14,7 @@ case class TopModule(n: Int, dataWidth: BitCount = 8 bits) extends Component {
 
   val digits = Vec.fill(4)(Reg(UInt(4 bits)) init (0))
 
-  val mem = Mem(wordType = UInt(8 bits), wordCount = (n + 1))
+  val mem = Mem(wordType = UInt(dataWidth), wordCount = (n + 1))
 
   // when(io.ena) {
   // {
@@ -38,7 +38,7 @@ case class TopModule(n: Int, dataWidth: BitCount = 8 bits) extends Component {
         outerCounter := (n - 2)
       }
       whenIsActive {
-        mem.write(innerCounter, U(1, 8 bits))
+        mem.write(innerCounter, U(1, dataWidth))
 
         when(innerCounter === 0) {
           goto(stateMulTen)
