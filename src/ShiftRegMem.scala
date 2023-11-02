@@ -12,17 +12,19 @@ case class ShiftRegMem(width: Int = 8, depth: Int = 11, stride: Int = 1) extends
   }
 
   val shiftCounter = CounterFreeRun(width)
-  val addrCounter = Counter(depth)
-
-  // val readAddrCounter = Reg(UInt(log2Up(depth) bits)) init (stride)
-  val writeAddrCounter = Reg(UInt(log2Up(depth) bits)) init (stride + 1)
+  val readAddrCounter = Reg(UInt(log2Up(depth) bits)) init (depth - 1)
+  val writeAddrCounter = Reg(UInt(log2Up(depth) bits)) init (depth - 1 - stride)
 
   when(shiftCounter.willOverflow) {
-    addrCounter.increment()
-    when(writeAddrCounter === U(depth - 1)) {
-      writeAddrCounter := 0
+    when(readAddrCounter === 0) {
+      readAddrCounter := depth - 1
     } otherwise {
-      writeAddrCounter := writeAddrCounter + 1
+      readAddrCounter := readAddrCounter - 1
+    }
+    when(writeAddrCounter === 0) {
+      writeAddrCounter := depth - 1
+    } otherwise {
+      writeAddrCounter := writeAddrCounter - 1
     }
   }
 
@@ -38,28 +40,43 @@ case class ShiftRegMem(width: Int = 8, depth: Int = 11, stride: Int = 1) extends
     }
   }
 
-  io.writeReq.ready := False
+  val writeReqReady = Reg(Bool) init (False)
+  io.writeReq.ready := writeReqReady
 
-  when(io.writeReq.valid) {
-    when(shiftCounter.willOverflow) {
-      when(io.writeReq.payload(0) === writeAddrCounter) {
-        io.writeReq.ready := True
-        mem(stride) := io.writeReq.payload(1)
-      }
-    }
+  when((io.writeReq.payload(0) === writeAddrCounter) && (shiftCounter === (width - 2))) {
+    writeReqReady := True
   }
 
-  io.readReq.ready := False
-  io.readRes.valid := False
-  io.readRes.payload := 0
+  when(io.writeReq.valid && writeReqReady) {
+    mem(stride) := io.writeReq.payload(1)
+    writeReqReady := False
+  }
+
+  val readReqReady = Reg(Bool) init (False)
+  val readReqPayload = Reg(io.readReq.payloadType) init (0)
+  io.readReq.ready := readReqReady
+
+  val readResValid = Reg(Bool) init (False)
+  val readResPayload = Reg(io.readRes.payloadType) init (0)
+  io.readRes.valid := readResValid
+  io.readRes.payload := readResPayload
 
   when(io.readReq.valid) {
-    when(shiftCounter.value === 0) {
-      when(io.readReq.payload === addrCounter.value) {
+    when(readReqReady) {
+      readReqReady := False
+    } otherwise {
+      when(readResValid) {
         when(io.readRes.ready) {
-          io.readRes.valid := True
-          io.readRes.payload := mem(0)
-          io.readReq.ready := True
+          readReqReady := True
+          readResValid := False
+        }
+      } otherwise {
+        readReqReady := False
+        when(shiftCounter.value === 0) {
+          when(io.readReq.payload === readAddrCounter) {
+            readResValid := True
+            readResPayload := mem(0)
+          }
         }
       }
     }
