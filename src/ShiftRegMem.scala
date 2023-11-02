@@ -26,7 +26,7 @@ case class ShiftRegMem(width: Int = 8, depth: Int = 11, stride: Int = 1) extends
     }
   }
 
-  val mem = Vec(Reg(UInt(width bits)) init (0), depth)
+  val mem = Vec(Reg(UInt(width bits)) init (1), depth)
 
   mem(depth - 1)(width - 1) := mem(0)(0)
   for (i <- 0 to (depth - 1)) {
