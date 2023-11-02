@@ -12,41 +12,26 @@ case class AddressSequencer(n: Int) extends Component {
   }
 
   // outer loop runs (n - 1) times from (n - 2) to 0
-  val outerCounter = Reg(UInt(log2Up(n - 1) bits)) init (0)
+  val outerCounter = Reg(UInt(log2Up(n - 1) bits)) init (n - 2)
 
   // inner loop runs (n + 1) times from n to 0
-  val innerCounter = Reg(UInt(log2Up(n + 1) bits)) init (0)
+  val innerCounter = Reg(UInt(log2Up(n + 1) bits)) init (n)
 
-  val valid = Reg(Bool) init (False)
+  val valid = Reg(Bool) init (True)
 
   io.readReq.valid := valid
   io.readReq.payload := innerCounter
 
-  val fsm: StateMachine = new StateMachine {
-    val stateInit: State = new State with EntryPoint {
-      whenIsActive {
-        outerCounter := n - 2
+  when(io.readReq.ready) {
+    when(innerCounter === 0) {
+      when(outerCounter === 0) {
+        valid := False
+      } otherwise {
         innerCounter := n
-        valid := True
-        goto(stateDo)
+        outerCounter := outerCounter - 1
       }
-    }
-
-    val stateDo: State = new State {
-      whenIsActive {
-        when(io.readReq.ready) {
-          when(innerCounter === 0) {
-            when(outerCounter === 0) {
-              valid := False
-            } otherwise {
-              innerCounter := n
-              outerCounter := outerCounter - 1
-            }
-          } otherwise {
-            innerCounter := innerCounter - 1
-          }
-        }
-      }
+    } otherwise {
+      innerCounter := innerCounter - 1
     }
   }
 
