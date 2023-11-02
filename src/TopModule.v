@@ -1,6 +1,6 @@
 // Generator : SpinalHDL v1.9.3    git head : 029104c77a54c53f1edda327a3bea333f7d65fd9
 // Component : TopModule
-// Git hash  : f9188ca736ff44fd91fef141b48f1847093dc5ca
+// Git hash  : fe1eadfb894ff8617855c6f107fc6863b9e73f42
 
 module TopModule (
   input               io_ena,
@@ -26,7 +26,7 @@ module TopModule (
   reg        [3:0]    digits_2;
   reg        [3:0]    digits_3;
   reg        [3:0]    outerCounter;
-  reg        [3:0]    innerCounter;
+  reg        [4:0]    innerCounter;
   wire                slideCounter_willIncrement;
   wire                slideCounter_willClear;
   reg        [3:0]    slideCounter_valueNext;
@@ -47,6 +47,10 @@ module TopModule (
   reg        [3:0]    mem_8;
   reg        [3:0]    mem_9;
   reg        [3:0]    mem_10;
+  reg        [3:0]    mem_11;
+  reg        [3:0]    mem_12;
+  reg        [3:0]    mem_13;
+  reg        [3:0]    mem_14;
   wire                when_TopModule_l36;
   wire                when_TopModule_l37;
   reg        [17:0]   accumulator;
@@ -59,13 +63,13 @@ module TopModule (
 
   assign _zz_slideCounter_valueNext_1 = slideCounter_willIncrement;
   assign _zz_slideCounter_valueNext = {3'd0, _zz_slideCounter_valueNext_1};
-  assign _zz_diff = {5'd0, innerCounter};
+  assign _zz_diff = {4'd0, innerCounter};
   assign _zz_accumulator = (mem_0 * 4'b1010);
   assign _zz_accumulator_1 = ({1'b0,_zz_accumulator_2} + _zz_accumulator_3);
   assign _zz_accumulator_2 = (mem_0 * 4'b1010);
   assign _zz_accumulator_4 = {1'b0,quotient};
   assign _zz_accumulator_3 = {4'd0, _zz_accumulator_4};
-  assign _zz_when_TopModule_l81 = {5'd0, innerCounter};
+  assign _zz_when_TopModule_l81 = {4'd0, innerCounter};
   assign slideCounter_willClear = 1'b0;
   assign slideCounter_willOverflowIfInc = (slideCounter_value == 4'b1001);
   assign slideCounter_willOverflow = (slideCounter_willOverflowIfInc && slideCounter_willIncrement);
@@ -82,10 +86,10 @@ module TopModule (
 
   assign slideCounter_willIncrement = 1'b1;
   assign dataIsValid = (slideCounter_value == 4'b0000);
-  assign startOfInnerLoop = (innerCounter == 4'b1100);
+  assign startOfInnerLoop = (innerCounter == 5'h10);
   assign startOfOuterLoop = (outerCounter == 4'b0000);
-  assign when_TopModule_l36 = (innerCounter == 4'b0010);
-  assign when_TopModule_l37 = (outerCounter == 4'b1000);
+  assign when_TopModule_l36 = (innerCounter == 5'h02);
+  assign when_TopModule_l37 = (outerCounter == 4'b1100);
   assign quotient = accumulator[3 : 0];
   assign remainder = accumulator[12 : 9];
   assign accumulator_lshift = (accumulator <<< 1);
@@ -103,7 +107,7 @@ module TopModule (
       digits_2 <= 4'b0000;
       digits_3 <= 4'b0000;
       outerCounter <= 4'b0000;
-      innerCounter <= 4'b1100;
+      innerCounter <= 5'h10;
       slideCounter_value <= 4'b0000;
       mem_0 <= 4'b0001;
       mem_1 <= 4'b0001;
@@ -116,21 +120,25 @@ module TopModule (
       mem_8 <= 4'b0001;
       mem_9 <= 4'b0001;
       mem_10 <= 4'b0001;
+      mem_11 <= 4'b0001;
+      mem_12 <= 4'b0001;
+      mem_13 <= 4'b0001;
+      mem_14 <= 4'b0001;
       accumulator <= 18'h00000;
     end else begin
       slideCounter_value <= slideCounter_valueNext;
       if(slideCounter_willOverflow) begin
         if(when_TopModule_l36) begin
           if(!when_TopModule_l37) begin
-            innerCounter <= 4'b1100;
+            innerCounter <= 5'h10;
             outerCounter <= (outerCounter + 4'b0001);
           end
         end else begin
-          innerCounter <= (innerCounter - 4'b0001);
+          innerCounter <= (innerCounter - 5'h01);
         end
       end
       if(slideCounter_willOverflow) begin
-        mem_10 <= mem_0;
+        mem_14 <= mem_0;
         mem_0 <= mem_1;
         mem_1 <= mem_2;
         mem_2 <= mem_3;
@@ -141,6 +149,10 @@ module TopModule (
         mem_7 <= mem_8;
         mem_8 <= mem_9;
         mem_9 <= mem_10;
+        mem_10 <= mem_11;
+        mem_11 <= mem_12;
+        mem_12 <= mem_13;
+        mem_13 <= mem_14;
       end
       if(dataIsValid) begin
         if(startOfInnerLoop) begin
@@ -149,7 +161,7 @@ module TopModule (
           accumulator <= {9'd0, _zz_accumulator_1};
         end
         if(when_TopModule_l76) begin
-          mem_10 <= remainder;
+          mem_14 <= remainder;
         end
       end else begin
         if(when_TopModule_l81) begin

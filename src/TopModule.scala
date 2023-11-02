@@ -105,5 +105,5 @@ case class TopModule(n: Int, dataWidth: BitCount = 8 bits, period: Int = 14) ext
 }
 
 object TopModuleVerilog extends App {
-  Config.spinal.generateVerilog(TopModule(n = 10, dataWidth = 4 bits, period = 10))
+  Config.spinal.generateVerilog(TopModule(n = 14, dataWidth = 4 bits, period = 10))
 }
