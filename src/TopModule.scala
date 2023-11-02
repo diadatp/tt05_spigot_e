@@ -6,7 +6,7 @@ import spinal.lib._
 import spinal.lib.fsm._
 import spinal.lib.sim._
 
-case class TopModule(n: Int, dataWidth: BitCount = 8 bits, period: Int = 14) extends Component {
+case class TopModule(n: Int = 20, dataWidth: BitCount = 5 bits, period: Int = 11) extends Component {
   val io = new Bundle {
     val ena = in Bool ()
     val digit0 = out UInt (4 bits)
@@ -105,5 +105,5 @@ case class TopModule(n: Int, dataWidth: BitCount = 8 bits, period: Int = 14) ext
 }
 
 object TopModuleVerilog extends App {
-  Config.spinal.generateVerilog(TopModule(n = 14, dataWidth = 4 bits, period = 10))
+  Config.spinal.generateVerilog(TopModule())
 }
