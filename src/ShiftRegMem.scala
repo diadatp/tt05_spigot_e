@@ -66,7 +66,18 @@ case class ShiftRegMem(width: Int = 8, depth: Int = 11, stride: Int = 1) extends
   }
 
   assert(
+    assertion = !(io.readReq.valid.fall && !io.readReq.ready),
+    message = "Valid dropped when ready was low",
+    severity = ERROR
+  )
+  assert(
     assertion = !(io.readRes.valid.fall && !io.readRes.ready),
+    message = "Valid dropped when ready was low",
+    severity = ERROR
+  )
+
+  assert(
+    assertion = !(io.writeReq.valid.fall && !io.writeReq.ready),
     message = "Valid dropped when ready was low",
     severity = ERROR
   )
