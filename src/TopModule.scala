@@ -6,7 +6,7 @@ import spinal.lib._
 import spinal.lib.fsm._
 import spinal.lib.sim._
 
-case class TopModule(n: Int = 20, dataWidth: BitCount = 5 bits, period: Int = 11) extends Component {
+case class TopModule(n: Int = 30, dataWidth: BitCount = 5 bits, period: Int = 11) extends Component {
   val io = new Bundle {
     val ena = in Bool ()
     val digit0 = out UInt (4 bits)
