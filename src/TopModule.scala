@@ -1,7 +1,10 @@
 package spigot_e
 
 import spinal.core._
+import spinal.core.sim._
+import spinal.lib._
 import spinal.lib.fsm._
+import spinal.lib.sim._
 
 case class TopModule(n: Int, dataWidth: BitCount = 8 bits) extends Component {
   val io = new Bundle {
