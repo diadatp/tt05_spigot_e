@@ -87,7 +87,11 @@ case class TopModule(n: Int, dataWidth: BitCount = 8 bits, period: Int = 14) ext
 
   when(dataIsValid) {
     when(startOfInnerLoop) {
-      digits(0) := quotient.resized
+      when(startOfOuterLoop) {
+        digits(0) := 2
+      } otherwise {
+        digits(0) := quotient.resized
+      }
       for (i <- 1 to 3) {
         digits(i) := digits(i - 1)
       }
