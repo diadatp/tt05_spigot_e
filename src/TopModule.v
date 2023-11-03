@@ -1,6 +1,6 @@
 // Generator : SpinalHDL v1.9.3    git head : 029104c77a54c53f1edda327a3bea333f7d65fd9
 // Component : TopModule
-// Git hash  : 236e6ee1ec8b241f6fcda2087fac58dd983cc93b
+// Git hash  : 9a8c5fa29b525794faa674d462839fd54dddd371
 
 module TopModule (
   input               io_ena,
@@ -34,7 +34,7 @@ module TopModule (
   wire                outerCounter_willOverflowIfInc;
   wire                outerCounter_willOverflow;
   reg        [5:0]    innerCounter;
-  wire                slideCounter_willIncrement;
+  reg                 slideCounter_willIncrement;
   wire                slideCounter_willClear;
   reg        [3:0]    slideCounter_valueNext;
   reg        [3:0]    slideCounter_value;
@@ -120,6 +120,13 @@ module TopModule (
     end
   end
 
+  always @(*) begin
+    slideCounter_willIncrement = 1'b0;
+    if(io_ena) begin
+      slideCounter_willIncrement = 1'b1;
+    end
+  end
+
   assign slideCounter_willClear = 1'b0;
   assign slideCounter_willOverflowIfInc = (slideCounter_value == 4'b1010);
   assign slideCounter_willOverflow = (slideCounter_willOverflowIfInc && slideCounter_willIncrement);
@@ -134,7 +141,6 @@ module TopModule (
     end
   end
 
-  assign slideCounter_willIncrement = 1'b1;
   assign dataIsValid = (slideCounter_value == 4'b0000);
   assign startOfInnerLoop = (innerCounter == 6'h21);
   assign startOfOuterLoop = (outerCounter_value == 5'h00);

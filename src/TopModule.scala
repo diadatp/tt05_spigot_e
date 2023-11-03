@@ -25,7 +25,7 @@ case class TopModule(n: Int = 31, dataWidth: BitCount = 5 bits, period: Int = 11
   val innerCounter = Reg(UInt(log2Up(n + 3) bits)) init (n + 2)
 
   // sliding window from 0 to (period - 1)
-  val slideCounter = CounterFreeRun(1 + dataWidth.value + 4 + 1)
+  val slideCounter = Counter(1 + dataWidth.value + 4 + 1, io.ena)
 
   val dataIsValid = (slideCounter === 0)
   val startOfInnerLoop = (innerCounter === (n + 2))

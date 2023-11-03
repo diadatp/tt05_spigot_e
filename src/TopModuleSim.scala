@@ -22,7 +22,7 @@ object TopModuleSim extends App {
     // approximately twice the clock cycles the design should take
     val totalCycles = (2 * (6 + dut.dataWidth.value) * dut.n * dut.n)
 
-    var prevDigit = dut.io.digit0.toInt
+    var prevDigit = -1
 
     for (i <- 0 to totalCycles) {
       dut.clockDomain.waitRisingEdge()
