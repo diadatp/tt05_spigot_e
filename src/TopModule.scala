@@ -46,12 +46,12 @@ case class TopModule(n: Int = 31, dataWidth: BitCount = 5 bits, period: Int = 11
     }
   }
 
-  when(slideCounter.willOverflow) {
+  // when(slideCounter.willOverflow) {
     mem(n) := mem(0)
     for (i <- 1 to n) {
       mem(i - 1) := mem(i)
     }
-  }
+  // }
 
   val opWidth = ((UInt(dataWidth) * 10) +^ UInt(dataWidth)).getWidth
 

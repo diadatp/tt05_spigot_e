@@ -1,6 +1,6 @@
 // Generator : SpinalHDL v1.9.3    git head : 029104c77a54c53f1edda327a3bea333f7d65fd9
 // Component : TopModule
-// Git hash  : 9a8c5fa29b525794faa674d462839fd54dddd371
+// Git hash  : 644ac86049e750a889f5fe444399bef6812f717c
 
 module TopModule (
   input               io_ena,
@@ -209,40 +209,38 @@ module TopModule (
           innerCounter <= (innerCounter - 6'h01);
         end
       end
-      if(slideCounter_willOverflow) begin
-        mem_31 <= mem_0;
-        mem_0 <= mem_1;
-        mem_1 <= mem_2;
-        mem_2 <= mem_3;
-        mem_3 <= mem_4;
-        mem_4 <= mem_5;
-        mem_5 <= mem_6;
-        mem_6 <= mem_7;
-        mem_7 <= mem_8;
-        mem_8 <= mem_9;
-        mem_9 <= mem_10;
-        mem_10 <= mem_11;
-        mem_11 <= mem_12;
-        mem_12 <= mem_13;
-        mem_13 <= mem_14;
-        mem_14 <= mem_15;
-        mem_15 <= mem_16;
-        mem_16 <= mem_17;
-        mem_17 <= mem_18;
-        mem_18 <= mem_19;
-        mem_19 <= mem_20;
-        mem_20 <= mem_21;
-        mem_21 <= mem_22;
-        mem_22 <= mem_23;
-        mem_23 <= mem_24;
-        mem_24 <= mem_25;
-        mem_25 <= mem_26;
-        mem_26 <= mem_27;
-        mem_27 <= mem_28;
-        mem_28 <= mem_29;
-        mem_29 <= mem_30;
-        mem_30 <= mem_31;
-      end
+      mem_31 <= mem_0;
+      mem_0 <= mem_1;
+      mem_1 <= mem_2;
+      mem_2 <= mem_3;
+      mem_3 <= mem_4;
+      mem_4 <= mem_5;
+      mem_5 <= mem_6;
+      mem_6 <= mem_7;
+      mem_7 <= mem_8;
+      mem_8 <= mem_9;
+      mem_9 <= mem_10;
+      mem_10 <= mem_11;
+      mem_11 <= mem_12;
+      mem_12 <= mem_13;
+      mem_13 <= mem_14;
+      mem_14 <= mem_15;
+      mem_15 <= mem_16;
+      mem_16 <= mem_17;
+      mem_17 <= mem_18;
+      mem_18 <= mem_19;
+      mem_19 <= mem_20;
+      mem_20 <= mem_21;
+      mem_21 <= mem_22;
+      mem_22 <= mem_23;
+      mem_23 <= mem_24;
+      mem_24 <= mem_25;
+      mem_25 <= mem_26;
+      mem_26 <= mem_27;
+      mem_27 <= mem_28;
+      mem_28 <= mem_29;
+      mem_29 <= mem_30;
+      mem_30 <= mem_31;
       if(dataIsValid) begin
         if(startOfInnerLoop) begin
           accumulator <= {11'd0, _zz_accumulator};
