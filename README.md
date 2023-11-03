@@ -1,40 +1,15 @@
 ![](../../workflows/gds/badge.svg) ![](../../workflows/docs/badge.svg) ![](../../workflows/wokwi_test/badge.svg)
 
-# What is Tiny Tapeout?
+# Spigot E
 
-TinyTapeout is an educational project that aims to make it easier and cheaper than ever to get your digital designs manufactured on a real chip.
+Spigot algorithm for calculating the digits of e
 
-To learn more and get started, visit https://tinytapeout.com.
+## How it works
 
-## Wokwi Projects
+This project implements a bounded spigot algorithm for calculating the digits (currently 31) of e. While there are many ways to calculate the digits of transcendental numbers like e or pi, this spigot algorithm has much lower memory requirements. It however only produces a single digit at a time, and the number of digits produced is precommited at the time of design. For calculating n digits, the algorithm needs at least (n+1) storage locations. Each digit requires (n+1) calculation steps, repeated (n-1) times producing (n-1) digits (first digit 2 is not counted). Each calculation step requires a constant multiply, an add and a divide with remainder.
 
-Edit the [info.yaml](info.yaml) and change the wokwi_id to the ID of your Wokwi project. You can find the ID in the URL of your project, it's the big number after `wokwi.com/projects/`.
-
-The GitHub action will automatically fetch the digital netlist from Wokwi and build the ASIC files.
-
-## Verilog Projects
-
-Edit the [info.yaml](info.yaml) and uncomment the `source_files` and `top_module` properties, and change the value of `language` to "Verilog". Add your Verilog files to the `src` folder, and list them in the `source_files` property.
-
-The GitHub action will automatically build the ASIC files using [OpenLane](https://www.zerotoasiccourse.com/terminology/openlane/).
-
-## Enable GitHub actions to build the results page
-
-- [Enabling GitHub Pages](https://tinytapeout.com/faq/#my-github-action-is-failing-on-the-pages-part)
-
-## Resources
-
-- [FAQ](https://tinytapeout.com/faq/)
-- [Digital design lessons](https://tinytapeout.com/digital_design/)
-- [Learn how semiconductors work](https://tinytapeout.com/siliwiz/)
-- [Join the community](https://discord.gg/rPK2nSjxy8)
-
-## What next?
-
-- Submit your design to the next shuttle [on the website](https://tinytapeout.com/#submit-your-design). The closing date is **November 4th**.
-- Edit this [README](README.md) and explain your design, how it works, and how to test it.
-- Share your GDS on your social network of choice, tagging it #tinytapeout and linking Matt's profile:
-  - LinkedIn [#tinytapeout](https://www.linkedin.com/search/results/content/?keywords=%23tinytapeout) [matt-venn](https://www.linkedin.com/in/matt-venn/)
-  - Mastodon [#tinytapeout](https://chaos.social/tags/tinytapeout) [@matthewvenn](https://chaos.social/@matthewvenn)
-  - Twitter [#tinytapeout](https://twitter.com/hashtag/tinytapeout?src=hashtag_click) [@matthewvenn](https://twitter.com/matthewvenn)
-
+There are many optimizations needed to fit as many digits as possible into a 1x1 tile. The biggest contributor is the storage elements. Some quick modeling revealed that the storage elements need to be about as wide as log(n).
+The calculation step hardware is shared across all iterations.
+The intermediate results are never needed outside each calculation and are never stored in memory.
+The memory access is such that each location is read and written to before moving on to the next.
+The memory access pattern removes the need for address decoding, replaced with a massive ring of gated shift registers.
