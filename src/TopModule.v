@@ -1,6 +1,6 @@
 // Generator : SpinalHDL v1.9.3    git head : 029104c77a54c53f1edda327a3bea333f7d65fd9
 // Component : TopModule
-// Git hash  : 644ac86049e750a889f5fe444399bef6812f717c
+// Git hash  : 138ab559d180a322055c92faf94f410d93ebc9a2
 
 module TopModule (
   input               io_ena,
@@ -16,13 +16,13 @@ module TopModule (
   wire       [0:0]    _zz_outerCounter_valueNext_1;
   wire       [3:0]    _zz_slideCounter_valueNext;
   wire       [0:0]    _zz_slideCounter_valueNext_1;
-  wire       [9:0]    _zz_diff;
-  wire       [8:0]    _zz_accumulator;
-  wire       [9:0]    _zz_accumulator_1;
-  wire       [8:0]    _zz_accumulator_2;
-  wire       [9:0]    _zz_accumulator_3;
-  wire       [5:0]    _zz_accumulator_4;
-  wire       [9:0]    _zz_when_TopModule_l82;
+  wire       [10:0]   _zz_diff;
+  wire       [9:0]    _zz_accumulator;
+  wire       [10:0]   _zz_accumulator_1;
+  wire       [9:0]    _zz_accumulator_2;
+  wire       [10:0]   _zz_accumulator_3;
+  wire       [6:0]    _zz_accumulator_4;
+  wire       [10:0]   _zz_when_TopModule_l82;
   reg        [3:0]    digits_0;
   reg        [3:0]    digits_1;
   reg        [3:0]    digits_2;
@@ -43,44 +43,45 @@ module TopModule (
   wire                dataIsValid;
   wire                startOfInnerLoop;
   wire                startOfOuterLoop;
-  reg        [4:0]    mem_0;
-  reg        [4:0]    mem_1;
-  reg        [4:0]    mem_2;
-  reg        [4:0]    mem_3;
-  reg        [4:0]    mem_4;
-  reg        [4:0]    mem_5;
-  reg        [4:0]    mem_6;
-  reg        [4:0]    mem_7;
-  reg        [4:0]    mem_8;
-  reg        [4:0]    mem_9;
-  reg        [4:0]    mem_10;
-  reg        [4:0]    mem_11;
-  reg        [4:0]    mem_12;
-  reg        [4:0]    mem_13;
-  reg        [4:0]    mem_14;
-  reg        [4:0]    mem_15;
-  reg        [4:0]    mem_16;
-  reg        [4:0]    mem_17;
-  reg        [4:0]    mem_18;
-  reg        [4:0]    mem_19;
-  reg        [4:0]    mem_20;
-  reg        [4:0]    mem_21;
-  reg        [4:0]    mem_22;
-  reg        [4:0]    mem_23;
-  reg        [4:0]    mem_24;
-  reg        [4:0]    mem_25;
-  reg        [4:0]    mem_26;
-  reg        [4:0]    mem_27;
-  reg        [4:0]    mem_28;
-  reg        [4:0]    mem_29;
-  reg        [4:0]    mem_30;
-  reg        [4:0]    mem_31;
+  reg        [5:0]    mem_0;
+  reg        [5:0]    mem_1;
+  reg        [5:0]    mem_2;
+  reg        [5:0]    mem_3;
+  reg        [5:0]    mem_4;
+  reg        [5:0]    mem_5;
+  reg        [5:0]    mem_6;
+  reg        [5:0]    mem_7;
+  reg        [5:0]    mem_8;
+  reg        [5:0]    mem_9;
+  reg        [5:0]    mem_10;
+  reg        [5:0]    mem_11;
+  reg        [5:0]    mem_12;
+  reg        [5:0]    mem_13;
+  reg        [5:0]    mem_14;
+  reg        [5:0]    mem_15;
+  reg        [5:0]    mem_16;
+  reg        [5:0]    mem_17;
+  reg        [5:0]    mem_18;
+  reg        [5:0]    mem_19;
+  reg        [5:0]    mem_20;
+  reg        [5:0]    mem_21;
+  reg        [5:0]    mem_22;
+  reg        [5:0]    mem_23;
+  reg        [5:0]    mem_24;
+  reg        [5:0]    mem_25;
+  reg        [5:0]    mem_26;
+  reg        [5:0]    mem_27;
+  reg        [5:0]    mem_28;
+  reg        [5:0]    mem_29;
+  reg        [5:0]    mem_30;
+  reg        [5:0]    mem_31;
+  reg        [5:0]    mem_32;
   wire                when_TopModule_l37;
-  reg        [19:0]   accumulator;
-  wire       [4:0]    quotient;
-  wire       [4:0]    remainder;
-  wire       [19:0]   accumulator_lshift;
-  wire       [9:0]    diff;
+  reg        [21:0]   accumulator;
+  wire       [5:0]    quotient;
+  wire       [5:0]    remainder;
+  wire       [21:0]   accumulator_lshift;
+  wire       [10:0]   diff;
   wire                when_TopModule_l77;
   wire                when_TopModule_l82;
 
@@ -88,13 +89,13 @@ module TopModule (
   assign _zz_outerCounter_valueNext = {4'd0, _zz_outerCounter_valueNext_1};
   assign _zz_slideCounter_valueNext_1 = slideCounter_willIncrement;
   assign _zz_slideCounter_valueNext = {3'd0, _zz_slideCounter_valueNext_1};
-  assign _zz_diff = {4'd0, innerCounter};
+  assign _zz_diff = {5'd0, innerCounter};
   assign _zz_accumulator = (mem_0 * 4'b1010);
   assign _zz_accumulator_1 = ({1'b0,_zz_accumulator_2} + _zz_accumulator_3);
   assign _zz_accumulator_2 = (mem_0 * 4'b1010);
   assign _zz_accumulator_4 = {1'b0,quotient};
   assign _zz_accumulator_3 = {4'd0, _zz_accumulator_4};
-  assign _zz_when_TopModule_l82 = {4'd0, innerCounter};
+  assign _zz_when_TopModule_l82 = {5'd0, innerCounter};
   always @(*) begin
     outerCounter_willIncrement = 1'b0;
     if(slideCounter_willOverflow) begin
@@ -107,14 +108,10 @@ module TopModule (
   end
 
   assign outerCounter_willClear = 1'b0;
-  assign outerCounter_willOverflowIfInc = (outerCounter_value == 5'h1e);
+  assign outerCounter_willOverflowIfInc = (outerCounter_value == 5'h1f);
   assign outerCounter_willOverflow = (outerCounter_willOverflowIfInc && outerCounter_willIncrement);
   always @(*) begin
-    if(outerCounter_willOverflow) begin
-      outerCounter_valueNext = 5'h00;
-    end else begin
-      outerCounter_valueNext = (outerCounter_value + _zz_outerCounter_valueNext);
-    end
+    outerCounter_valueNext = (outerCounter_value + _zz_outerCounter_valueNext);
     if(outerCounter_willClear) begin
       outerCounter_valueNext = 5'h00;
     end
@@ -128,7 +125,7 @@ module TopModule (
   end
 
   assign slideCounter_willClear = 1'b0;
-  assign slideCounter_willOverflowIfInc = (slideCounter_value == 4'b1010);
+  assign slideCounter_willOverflowIfInc = (slideCounter_value == 4'b1011);
   assign slideCounter_willOverflow = (slideCounter_willOverflowIfInc && slideCounter_willIncrement);
   always @(*) begin
     if(slideCounter_willOverflow) begin
@@ -142,15 +139,15 @@ module TopModule (
   end
 
   assign dataIsValid = (slideCounter_value == 4'b0000);
-  assign startOfInnerLoop = (innerCounter == 6'h21);
+  assign startOfInnerLoop = (innerCounter == 6'h22);
   assign startOfOuterLoop = (outerCounter_value == 5'h00);
   assign when_TopModule_l37 = (innerCounter == 6'h02);
-  assign quotient = accumulator[4 : 0];
-  assign remainder = accumulator[14 : 10];
+  assign quotient = accumulator[5 : 0];
+  assign remainder = accumulator[16 : 11];
   assign accumulator_lshift = (accumulator <<< 1);
-  assign diff = (accumulator_lshift[19 : 10] - _zz_diff);
+  assign diff = (accumulator_lshift[21 : 11] - _zz_diff);
   assign when_TopModule_l77 = (! (startOfInnerLoop && startOfOuterLoop));
-  assign when_TopModule_l82 = (_zz_when_TopModule_l82 <= accumulator_lshift[19 : 10]);
+  assign when_TopModule_l82 = (_zz_when_TopModule_l82 <= accumulator_lshift[21 : 11]);
   assign io_digit0 = digits_0;
   assign io_digit1 = digits_1;
   assign io_digit2 = digits_2;
@@ -162,54 +159,55 @@ module TopModule (
       digits_2 <= 4'b0000;
       digits_3 <= 4'b0000;
       outerCounter_value <= 5'h00;
-      innerCounter <= 6'h21;
+      innerCounter <= 6'h22;
       slideCounter_value <= 4'b0000;
-      mem_0 <= 5'h01;
-      mem_1 <= 5'h01;
-      mem_2 <= 5'h01;
-      mem_3 <= 5'h01;
-      mem_4 <= 5'h01;
-      mem_5 <= 5'h01;
-      mem_6 <= 5'h01;
-      mem_7 <= 5'h01;
-      mem_8 <= 5'h01;
-      mem_9 <= 5'h01;
-      mem_10 <= 5'h01;
-      mem_11 <= 5'h01;
-      mem_12 <= 5'h01;
-      mem_13 <= 5'h01;
-      mem_14 <= 5'h01;
-      mem_15 <= 5'h01;
-      mem_16 <= 5'h01;
-      mem_17 <= 5'h01;
-      mem_18 <= 5'h01;
-      mem_19 <= 5'h01;
-      mem_20 <= 5'h01;
-      mem_21 <= 5'h01;
-      mem_22 <= 5'h01;
-      mem_23 <= 5'h01;
-      mem_24 <= 5'h01;
-      mem_25 <= 5'h01;
-      mem_26 <= 5'h01;
-      mem_27 <= 5'h01;
-      mem_28 <= 5'h01;
-      mem_29 <= 5'h01;
-      mem_30 <= 5'h01;
-      mem_31 <= 5'h01;
-      accumulator <= 20'h00000;
+      mem_0 <= 6'h01;
+      mem_1 <= 6'h01;
+      mem_2 <= 6'h01;
+      mem_3 <= 6'h01;
+      mem_4 <= 6'h01;
+      mem_5 <= 6'h01;
+      mem_6 <= 6'h01;
+      mem_7 <= 6'h01;
+      mem_8 <= 6'h01;
+      mem_9 <= 6'h01;
+      mem_10 <= 6'h01;
+      mem_11 <= 6'h01;
+      mem_12 <= 6'h01;
+      mem_13 <= 6'h01;
+      mem_14 <= 6'h01;
+      mem_15 <= 6'h01;
+      mem_16 <= 6'h01;
+      mem_17 <= 6'h01;
+      mem_18 <= 6'h01;
+      mem_19 <= 6'h01;
+      mem_20 <= 6'h01;
+      mem_21 <= 6'h01;
+      mem_22 <= 6'h01;
+      mem_23 <= 6'h01;
+      mem_24 <= 6'h01;
+      mem_25 <= 6'h01;
+      mem_26 <= 6'h01;
+      mem_27 <= 6'h01;
+      mem_28 <= 6'h01;
+      mem_29 <= 6'h01;
+      mem_30 <= 6'h01;
+      mem_31 <= 6'h01;
+      mem_32 <= 6'h01;
+      accumulator <= 22'h000000;
     end else begin
       outerCounter_value <= outerCounter_valueNext;
       slideCounter_value <= slideCounter_valueNext;
       if(slideCounter_willOverflow) begin
         if(when_TopModule_l37) begin
           if(!outerCounter_willOverflowIfInc) begin
-            innerCounter <= 6'h21;
+            innerCounter <= 6'h22;
           end
         end else begin
           innerCounter <= (innerCounter - 6'h01);
         end
       end
-      mem_31 <= mem_0;
+      mem_32 <= mem_0;
       mem_0 <= mem_1;
       mem_1 <= mem_2;
       mem_2 <= mem_3;
@@ -241,18 +239,19 @@ module TopModule (
       mem_28 <= mem_29;
       mem_29 <= mem_30;
       mem_30 <= mem_31;
+      mem_31 <= mem_32;
       if(dataIsValid) begin
         if(startOfInnerLoop) begin
-          accumulator <= {11'd0, _zz_accumulator};
+          accumulator <= {12'd0, _zz_accumulator};
         end else begin
-          accumulator <= {10'd0, _zz_accumulator_1};
+          accumulator <= {11'd0, _zz_accumulator_1};
         end
         if(when_TopModule_l77) begin
-          mem_31 <= remainder;
+          mem_32 <= remainder;
         end
       end else begin
         if(when_TopModule_l82) begin
-          accumulator <= {{diff[9 : 0],accumulator_lshift[9 : 1]},1'b1};
+          accumulator <= {{diff[10 : 0],accumulator_lshift[10 : 1]},1'b1};
         end else begin
           accumulator <= accumulator_lshift;
         end
