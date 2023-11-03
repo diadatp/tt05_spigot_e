@@ -1,6 +1,6 @@
 // Generator : SpinalHDL v1.9.3    git head : 029104c77a54c53f1edda327a3bea333f7d65fd9
 // Component : TopModule
-// Git hash  : 695da483bb83c0e680661ac08a66359e8d15026f
+// Git hash  : 236e6ee1ec8b241f6fcda2087fac58dd983cc93b
 
 module TopModule (
   input               io_ena,
@@ -17,17 +17,11 @@ module TopModule (
   wire       [3:0]    _zz_slideCounter_valueNext;
   wire       [0:0]    _zz_slideCounter_valueNext_1;
   wire       [9:0]    _zz_diff;
-  wire       [7:0]    _zz_accumulator;
-  wire       [7:0]    _zz_accumulator_1;
-  wire       [7:0]    _zz_accumulator_2;
-  wire       [5:0]    _zz_accumulator_3;
-  wire       [8:0]    _zz_accumulator_4;
-  wire       [7:0]    _zz_accumulator_5;
-  wire       [7:0]    _zz_accumulator_6;
-  wire       [7:0]    _zz_accumulator_7;
-  wire       [5:0]    _zz_accumulator_8;
-  wire       [8:0]    _zz_accumulator_9;
-  wire       [5:0]    _zz_accumulator_10;
+  wire       [8:0]    _zz_accumulator;
+  wire       [9:0]    _zz_accumulator_1;
+  wire       [8:0]    _zz_accumulator_2;
+  wire       [9:0]    _zz_accumulator_3;
+  wire       [5:0]    _zz_accumulator_4;
   wire       [9:0]    _zz_when_TopModule_l82;
   reg        [3:0]    digits_0;
   reg        [3:0]    digits_1;
@@ -95,17 +89,11 @@ module TopModule (
   assign _zz_slideCounter_valueNext_1 = slideCounter_willIncrement;
   assign _zz_slideCounter_valueNext = {3'd0, _zz_slideCounter_valueNext_1};
   assign _zz_diff = {4'd0, innerCounter};
-  assign _zz_accumulator = (_zz_accumulator_1 + _zz_accumulator_2);
-  assign _zz_accumulator_1 = ({3'd0,mem_0} <<< 2'd3);
-  assign _zz_accumulator_3 = ({1'd0,mem_0} <<< 1'd1);
-  assign _zz_accumulator_2 = {2'd0, _zz_accumulator_3};
-  assign _zz_accumulator_4 = ({1'b0,_zz_accumulator_5} + _zz_accumulator_9);
-  assign _zz_accumulator_5 = (_zz_accumulator_6 + _zz_accumulator_7);
-  assign _zz_accumulator_6 = ({3'd0,mem_0} <<< 2'd3);
-  assign _zz_accumulator_8 = ({1'd0,mem_0} <<< 1'd1);
-  assign _zz_accumulator_7 = {2'd0, _zz_accumulator_8};
-  assign _zz_accumulator_10 = {1'b0,quotient};
-  assign _zz_accumulator_9 = {3'd0, _zz_accumulator_10};
+  assign _zz_accumulator = (mem_0 * 4'b1010);
+  assign _zz_accumulator_1 = ({1'b0,_zz_accumulator_2} + _zz_accumulator_3);
+  assign _zz_accumulator_2 = (mem_0 * 4'b1010);
+  assign _zz_accumulator_4 = {1'b0,quotient};
+  assign _zz_accumulator_3 = {4'd0, _zz_accumulator_4};
   assign _zz_when_TopModule_l82 = {4'd0, innerCounter};
   always @(*) begin
     outerCounter_willIncrement = 1'b0;
@@ -251,9 +239,9 @@ module TopModule (
       end
       if(dataIsValid) begin
         if(startOfInnerLoop) begin
-          accumulator <= {12'd0, _zz_accumulator};
+          accumulator <= {11'd0, _zz_accumulator};
         end else begin
-          accumulator <= {11'd0, _zz_accumulator_4};
+          accumulator <= {10'd0, _zz_accumulator_1};
         end
         if(when_TopModule_l77) begin
           mem_31 <= remainder;
