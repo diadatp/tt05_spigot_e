@@ -4,10 +4,12 @@ import spinal.core._
 import spinal.core.sim._
 
 object TopModuleSim extends App {
-  Config.sim.compile(TopModule(9)).doSim { dut =>
+  Config.sim.compile(TopModule()).doSim { dut =>
     dut.clockDomain.forkStimulus(period = 10)
 
-    for (idx <- 0 to 10) {
+    dut.io.ena #= false
+
+    for (idx <- 0 to 100) {
       dut.clockDomain.waitRisingEdge()
     }
 
