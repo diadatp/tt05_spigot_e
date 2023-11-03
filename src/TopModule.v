@@ -1,6 +1,6 @@
 // Generator : SpinalHDL v1.9.3    git head : 029104c77a54c53f1edda327a3bea333f7d65fd9
 // Component : TopModule
-// Git hash  : 45755c5277d386d05574eef4a664952cf355a9e6
+// Git hash  : 50b208e9b844d3ecfeb68ce295fc0c53e65cf762
 
 module TopModule (
   input               io_ena,
@@ -146,7 +146,7 @@ module TopModule (
   assign io_digit1 = digits_1;
   assign io_digit2 = digits_2;
   assign io_digit3 = digits_3;
-  always @(posedge clk) begin
+  always @(posedge clk or negedge resetn) begin
     if(!resetn) begin
       digits_0 <= 4'b0000;
       digits_1 <= 4'b0000;

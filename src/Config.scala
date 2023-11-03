@@ -8,7 +8,7 @@ object Config {
     targetDirectory = "src/",
     defaultConfigForClockDomains = ClockDomainConfig(
       resetActiveLevel = LOW,
-      resetKind = SYNC
+      // resetKind = SYNC
     ),
     onlyStdLogicVectorAtTopLevelIo = true
   )
