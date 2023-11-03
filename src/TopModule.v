@@ -1,6 +1,6 @@
 // Generator : SpinalHDL v1.9.3    git head : 029104c77a54c53f1edda327a3bea333f7d65fd9
 // Component : TopModule
-// Git hash  : cf282c4241bb180230237a434ed1df2c1502f1fb
+// Git hash  : 3de6f9dedef80b96f48da36cb0d927ab2dd13905
 
 module TopModule (
   input               io_ena,
@@ -22,7 +22,7 @@ module TopModule (
   wire       [8:0]    _zz_accumulator_2;
   wire       [9:0]    _zz_accumulator_3;
   wire       [5:0]    _zz_accumulator_4;
-  wire       [9:0]    _zz_when_TopModule_l81;
+  wire       [9:0]    _zz_when_TopModule_l82;
   reg        [3:0]    digits_0;
   reg        [3:0]    digits_1;
   reg        [3:0]    digits_2;
@@ -74,14 +74,14 @@ module TopModule (
   reg        [4:0]    mem_28;
   reg        [4:0]    mem_29;
   reg        [4:0]    mem_30;
-  wire                when_TopModule_l36;
+  wire                when_TopModule_l37;
   reg        [19:0]   accumulator;
   wire       [4:0]    quotient;
   wire       [4:0]    remainder;
   wire       [19:0]   accumulator_lshift;
   wire       [9:0]    diff;
-  wire                when_TopModule_l76;
-  wire                when_TopModule_l81;
+  wire                when_TopModule_l77;
+  wire                when_TopModule_l82;
 
   assign _zz_outerCounter_valueNext_1 = outerCounter_willIncrement;
   assign _zz_outerCounter_valueNext = {4'd0, _zz_outerCounter_valueNext_1};
@@ -93,11 +93,11 @@ module TopModule (
   assign _zz_accumulator_2 = (mem_0 * 4'b1010);
   assign _zz_accumulator_4 = {1'b0,quotient};
   assign _zz_accumulator_3 = {4'd0, _zz_accumulator_4};
-  assign _zz_when_TopModule_l81 = {4'd0, innerCounter};
+  assign _zz_when_TopModule_l82 = {4'd0, innerCounter};
   always @(*) begin
     outerCounter_willIncrement = 1'b0;
     if(slideCounter_willOverflow) begin
-      if(when_TopModule_l36) begin
+      if(when_TopModule_l37) begin
         if(!outerCounter_willOverflowIfInc) begin
           outerCounter_willIncrement = 1'b1;
         end
@@ -106,7 +106,7 @@ module TopModule (
   end
 
   assign outerCounter_willClear = 1'b0;
-  assign outerCounter_willOverflowIfInc = (outerCounter_value == 5'h1b);
+  assign outerCounter_willOverflowIfInc = (outerCounter_value == 5'h1d);
   assign outerCounter_willOverflow = (outerCounter_willOverflowIfInc && outerCounter_willIncrement);
   always @(*) begin
     if(outerCounter_willOverflow) begin
@@ -137,13 +137,13 @@ module TopModule (
   assign dataIsValid = (slideCounter_value == 4'b0000);
   assign startOfInnerLoop = (innerCounter == 6'h20);
   assign startOfOuterLoop = (outerCounter_value == 5'h00);
-  assign when_TopModule_l36 = (innerCounter == 6'h02);
+  assign when_TopModule_l37 = (innerCounter == 6'h02);
   assign quotient = accumulator[4 : 0];
   assign remainder = accumulator[14 : 10];
   assign accumulator_lshift = (accumulator <<< 1);
   assign diff = (accumulator_lshift[19 : 10] - _zz_diff);
-  assign when_TopModule_l76 = (! (startOfInnerLoop && startOfOuterLoop));
-  assign when_TopModule_l81 = (_zz_when_TopModule_l81 <= accumulator_lshift[19 : 10]);
+  assign when_TopModule_l77 = (! (startOfInnerLoop && startOfOuterLoop));
+  assign when_TopModule_l82 = (_zz_when_TopModule_l82 <= accumulator_lshift[19 : 10]);
   assign io_digit0 = digits_0;
   assign io_digit1 = digits_1;
   assign io_digit2 = digits_2;
@@ -193,7 +193,7 @@ module TopModule (
       outerCounter_value <= outerCounter_valueNext;
       slideCounter_value <= slideCounter_valueNext;
       if(slideCounter_willOverflow) begin
-        if(when_TopModule_l36) begin
+        if(when_TopModule_l37) begin
           if(!outerCounter_willOverflowIfInc) begin
             innerCounter <= 6'h20;
           end
@@ -240,11 +240,11 @@ module TopModule (
         end else begin
           accumulator <= {10'd0, _zz_accumulator_1};
         end
-        if(when_TopModule_l76) begin
+        if(when_TopModule_l77) begin
           mem_30 <= remainder;
         end
       end else begin
-        if(when_TopModule_l81) begin
+        if(when_TopModule_l82) begin
           accumulator <= {{diff[9 : 0],accumulator_lshift[9 : 1]},1'b1};
         end else begin
           accumulator <= accumulator_lshift;

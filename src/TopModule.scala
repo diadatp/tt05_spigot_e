@@ -17,8 +17,9 @@ case class TopModule(n: Int = 30, dataWidth: BitCount = 5 bits, period: Int = 11
 
   val digits = Vec.fill(4)(Reg(UInt(4 bits)) init (0))
 
-  // outer loop runs (n - 1) times from 0 to (n - 2)
-  val outerCounter = Counter(n - 2)
+  // outer loop should run (n - 1) times from 0 to (n - 2)
+  // but we run once more to output the last digit
+  val outerCounter = Counter(n)
 
   // inner loop runs (n + 1) times from (n + 2) to 2
   val innerCounter = Reg(UInt(log2Up(n + 3) bits)) init (n + 2)
