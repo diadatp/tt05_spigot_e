@@ -1,6 +1,6 @@
 // Generator : SpinalHDL v1.9.3    git head : 029104c77a54c53f1edda327a3bea333f7d65fd9
 // Component : TopModule
-// Git hash  : b0b52219317d48024263c7a2725d3827f8528aee
+// Git hash  : cf282c4241bb180230237a434ed1df2c1502f1fb
 
 module TopModule (
   input               io_ena,
@@ -12,6 +12,8 @@ module TopModule (
   input               resetn
 );
 
+  wire       [4:0]    _zz_outerCounter_valueNext;
+  wire       [0:0]    _zz_outerCounter_valueNext_1;
   wire       [3:0]    _zz_slideCounter_valueNext;
   wire       [0:0]    _zz_slideCounter_valueNext_1;
   wire       [9:0]    _zz_diff;
@@ -25,7 +27,12 @@ module TopModule (
   reg        [3:0]    digits_1;
   reg        [3:0]    digits_2;
   reg        [3:0]    digits_3;
-  reg        [4:0]    outerCounter;
+  reg                 outerCounter_willIncrement;
+  wire                outerCounter_willClear;
+  reg        [4:0]    outerCounter_valueNext;
+  reg        [4:0]    outerCounter_value;
+  wire                outerCounter_willOverflowIfInc;
+  wire                outerCounter_willOverflow;
   reg        [5:0]    innerCounter;
   wire                slideCounter_willIncrement;
   wire                slideCounter_willClear;
@@ -68,7 +75,6 @@ module TopModule (
   reg        [4:0]    mem_29;
   reg        [4:0]    mem_30;
   wire                when_TopModule_l36;
-  wire                when_TopModule_l37;
   reg        [19:0]   accumulator;
   wire       [4:0]    quotient;
   wire       [4:0]    remainder;
@@ -77,6 +83,8 @@ module TopModule (
   wire                when_TopModule_l76;
   wire                when_TopModule_l81;
 
+  assign _zz_outerCounter_valueNext_1 = outerCounter_willIncrement;
+  assign _zz_outerCounter_valueNext = {4'd0, _zz_outerCounter_valueNext_1};
   assign _zz_slideCounter_valueNext_1 = slideCounter_willIncrement;
   assign _zz_slideCounter_valueNext = {3'd0, _zz_slideCounter_valueNext_1};
   assign _zz_diff = {4'd0, innerCounter};
@@ -86,6 +94,31 @@ module TopModule (
   assign _zz_accumulator_4 = {1'b0,quotient};
   assign _zz_accumulator_3 = {4'd0, _zz_accumulator_4};
   assign _zz_when_TopModule_l81 = {4'd0, innerCounter};
+  always @(*) begin
+    outerCounter_willIncrement = 1'b0;
+    if(slideCounter_willOverflow) begin
+      if(when_TopModule_l36) begin
+        if(!outerCounter_willOverflowIfInc) begin
+          outerCounter_willIncrement = 1'b1;
+        end
+      end
+    end
+  end
+
+  assign outerCounter_willClear = 1'b0;
+  assign outerCounter_willOverflowIfInc = (outerCounter_value == 5'h1b);
+  assign outerCounter_willOverflow = (outerCounter_willOverflowIfInc && outerCounter_willIncrement);
+  always @(*) begin
+    if(outerCounter_willOverflow) begin
+      outerCounter_valueNext = 5'h00;
+    end else begin
+      outerCounter_valueNext = (outerCounter_value + _zz_outerCounter_valueNext);
+    end
+    if(outerCounter_willClear) begin
+      outerCounter_valueNext = 5'h00;
+    end
+  end
+
   assign slideCounter_willClear = 1'b0;
   assign slideCounter_willOverflowIfInc = (slideCounter_value == 4'b1010);
   assign slideCounter_willOverflow = (slideCounter_willOverflowIfInc && slideCounter_willIncrement);
@@ -103,9 +136,8 @@ module TopModule (
   assign slideCounter_willIncrement = 1'b1;
   assign dataIsValid = (slideCounter_value == 4'b0000);
   assign startOfInnerLoop = (innerCounter == 6'h20);
-  assign startOfOuterLoop = (outerCounter == 5'h00);
+  assign startOfOuterLoop = (outerCounter_value == 5'h00);
   assign when_TopModule_l36 = (innerCounter == 6'h02);
-  assign when_TopModule_l37 = (outerCounter == 5'h1c);
   assign quotient = accumulator[4 : 0];
   assign remainder = accumulator[14 : 10];
   assign accumulator_lshift = (accumulator <<< 1);
@@ -122,7 +154,7 @@ module TopModule (
       digits_1 <= 4'b0000;
       digits_2 <= 4'b0000;
       digits_3 <= 4'b0000;
-      outerCounter <= 5'h00;
+      outerCounter_value <= 5'h00;
       innerCounter <= 6'h20;
       slideCounter_value <= 4'b0000;
       mem_0 <= 5'h01;
@@ -158,12 +190,12 @@ module TopModule (
       mem_30 <= 5'h01;
       accumulator <= 20'h00000;
     end else begin
+      outerCounter_value <= outerCounter_valueNext;
       slideCounter_value <= slideCounter_valueNext;
       if(slideCounter_willOverflow) begin
         if(when_TopModule_l36) begin
-          if(!when_TopModule_l37) begin
+          if(!outerCounter_willOverflowIfInc) begin
             innerCounter <= 6'h20;
-            outerCounter <= (outerCounter + 5'h01);
           end
         end else begin
           innerCounter <= (innerCounter - 6'h01);

@@ -18,13 +18,13 @@ case class TopModule(n: Int = 30, dataWidth: BitCount = 5 bits, period: Int = 11
   val digits = Vec.fill(4)(Reg(UInt(4 bits)) init (0))
 
   // outer loop runs (n - 1) times from 0 to (n - 2)
-  val outerCounter = Reg(UInt(log2Up(n - 1) bits)) init (0)
+  val outerCounter = Counter(n - 2)
 
   // inner loop runs (n + 1) times from (n + 2) to 2
   val innerCounter = Reg(UInt(log2Up(n + 3) bits)) init (n + 2)
 
   // sliding window from 0 to (period - 1)
-  val slideCounter = CounterFreeRun(period)
+  val slideCounter = CounterFreeRun(1 + dataWidth.value + 4 + 1)
 
   val dataIsValid = (slideCounter === 0)
   val startOfInnerLoop = (innerCounter === (n + 2))
@@ -34,11 +34,11 @@ case class TopModule(n: Int = 30, dataWidth: BitCount = 5 bits, period: Int = 11
 
   when(slideCounter.willOverflow) {
     when(innerCounter === 2) {
-      when(outerCounter === (n - 2)) {
+      when(outerCounter.willOverflowIfInc) {
         // do nothing?
       } otherwise {
         innerCounter := n + 2
-        outerCounter := outerCounter + 1
+        outerCounter.increment()
       }
     } otherwise {
       innerCounter := innerCounter - 1
