@@ -67,10 +67,10 @@ case class TopModule(n: Int = 31, dataWidth: BitCount = 5 bits, period: Int = 11
 
     when(startOfInnerLoop) {
       // the input quotient is zero at the start of the loop
-      accumulator := (mem(0) * 10).resized
+      accumulator := ((mem(0) << 3) + (mem(0) << 1)).resized
     } otherwise {
       // get input quotient from previous division
-      accumulator := ((mem(0) * 10) +^ quotient).resized
+      accumulator := (((mem(0) << 3) + (mem(0) << 1)) +^ quotient).resized
     }
 
     // store the remainder except when the algorithm starts
