@@ -15,7 +15,7 @@ case class TopModule(n: Int = 31, dataWidth: BitCount = 5 bits, period: Int = 11
     val digit3 = out UInt (4 bits)
   }
 
-  val digits = Vec.fill(4)(Reg(UInt(4 bits)) init (0))
+  val digits = Vec.fill(4)(Reg(UInt(4 bits)) init (0xF))
 
   // outer loop should run (n - 1) times from 0 to (n - 2)
   // but we run once more to output the last digit
@@ -92,9 +92,9 @@ case class TopModule(n: Int = 31, dataWidth: BitCount = 5 bits, period: Int = 11
         digits(0) := 2
       } otherwise {
         digits(0) := quotient.resized
-      }
-      for (i <- 1 to 3) {
-        digits(i) := digits(i - 1)
+        for (i <- 1 to 3) {
+          digits(i) := digits(i - 1)
+        }
       }
     }
   }
